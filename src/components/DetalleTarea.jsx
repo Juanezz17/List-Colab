@@ -41,4 +41,4 @@ const TaskDetail = ({ task, updateTask, deleteTask }) => {
   );
 };
 
-export default TaskDetail;
+export default DetalleTarea;
