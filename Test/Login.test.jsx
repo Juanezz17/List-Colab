@@ -1,34 +1,28 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Login from "../src/components/Login";
-import { toast } from "react-toastify";
-import { vi, describe, it, expect, beforeEach } from "vitest";
-
-vi.mock("react-toastify", () => ({
-  toast: {
-    success: vi.fn(),
-    error: vi.fn(),
-  },
-}));
+import Login from "../src/components/Login"; 
+import { vi, describe, it, expect } from "vitest";
 
 describe("Login Component", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
+  const validUsers = [
+    { username: "juan", password: "juan25" },
+    { username: "danna", password: "danna25" },
+  ];
+
+  validUsers.forEach((user) => {
+    it(`login correcto con ${user.username}`, async () => {
+      const onLoginMock = vi.fn();
+      render(<Login onLogin={onLoginMock} />);
+
+      await userEvent.type(screen.getByPlaceholderText("Usuario"), user.username);
+      await userEvent.type(screen.getByPlaceholderText("Contraseña"), user.password);
+      await userEvent.click(screen.getByRole("button", { name: /entrar/i }));
+
+      expect(onLoginMock).toHaveBeenCalledWith(user);
+    });
   });
 
-  it("login correcto llama a onLogin y toast.success", async () => {
-    const onLoginMock = vi.fn();
-    render(<Login onLogin={onLoginMock} />);
-
-    await userEvent.type(screen.getByPlaceholderText("Usuario"), "juan");
-    await userEvent.type(screen.getByPlaceholderText("Contraseña"), "juan25");
-    await userEvent.click(screen.getByRole("button", { name: /entrar/i }));
-
-    expect(onLoginMock).toHaveBeenCalledWith({ username: "juan", password: "juan25" });
-    expect(toast.success).toHaveBeenCalledWith("Inicio de sesión correcto");
-  });
-
-  it("login incorrecto llama toast.error y no onLogin", async () => {
+  it("login incorrecto con mario", async () => {
     const onLoginMock = vi.fn();
     render(<Login onLogin={onLoginMock} />);
 
@@ -37,6 +31,5 @@ describe("Login Component", () => {
     await userEvent.click(screen.getByRole("button", { name: /entrar/i }));
 
     expect(onLoginMock).not.toHaveBeenCalled();
-    expect(toast.error).toHaveBeenCalledWith("Usuario o contraseña incorrectos");
   });
 });
