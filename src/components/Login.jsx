@@ -21,8 +21,12 @@ const Login = ({ onLogin }) => {
       toast.success("Inicio de sesión correcto");
       onLogin(user);
     } else {
+
       toast.error("Usuario o contraseña incorrectos");
     }
+
+    setUsername("");
+    setPassword("");
   };
 
   return (
