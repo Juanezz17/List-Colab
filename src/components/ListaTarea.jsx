@@ -9,7 +9,7 @@ import {
 
 Modal.setAppElement("#root");
 
-const TaskList = ({ tasks, updateTask, deleteTask, user }) => {
+const ListaTarea = ({ tasks, updateTask, deleteTask, user }) => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [newTitle, setNewTitle] = useState("");

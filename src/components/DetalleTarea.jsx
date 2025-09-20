@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { TrashIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
 
-const TaskDetail = ({ task, updateTask, deleteTask }) => {
+const DetalleTarea = ({ task, updateTask, deleteTask }) => {
   return (
     <motion.div
       className={`flex items-center justify-between px-4 py-3 rounded-lg shadow-md transition 
