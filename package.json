@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve-api": "json-server db.json --port 4000",
-    "lint": "eslint . --ext .js, .jsx",
+    "lint": "eslint . --ext .js",
     "preview": "vite preview"
   },
   "dependencies": {
