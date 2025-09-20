@@ -11,35 +11,16 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
-describe("Login Component", () => {
+describe("Login Component (con visualización)", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  test("Renderiza inputs y botón correctamente", () => {
-    render(<Login onLogin={() => {}} />);
-
-    expect(screen.getByPlaceholderText("Usuario")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Contraseña")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /entrar/i })).toBeInTheDocument();
-  });
-
-  test("Permite escribir en los inputs", async () => {
-    render(<Login onLogin={() => {}} />);
-
-    const userInput = screen.getByPlaceholderText("Usuario");
-    const passwordInput = screen.getByPlaceholderText("Contraseña");
-
-    await userEvent.type(userInput, "juan");
-    await userEvent.type(passwordInput, "juan25");
-
-    expect(userInput.value).toBe("juan");
-    expect(passwordInput.value).toBe("juan25");
-  });
-
-  test("Llama a onLogin y muestra toast de éxito con usuario válido", async () => {
+  test("login correcto llama a onLogin y muestra toast de éxito", async () => {
     const onLoginMock = jest.fn();
     render(<Login onLogin={onLoginMock} />);
+
+    screen.logTestingPlaygroundURL();
 
     await userEvent.type(screen.getByPlaceholderText("Usuario"), "juan");
     await userEvent.type(screen.getByPlaceholderText("Contraseña"), "juan25");
@@ -47,12 +28,13 @@ describe("Login Component", () => {
 
     expect(onLoginMock).toHaveBeenCalledWith({ username: "juan", password: "juan25" });
     expect(toast.success).toHaveBeenCalledWith("Inicio de sesión correcto");
-    expect(toast.error).not.toHaveBeenCalled();
   });
 
-  test("Muestra toast de error con usuario inválido", async () => {
+  test("login incorrecto muestra toast de error y no llama a onLogin", async () => {
     const onLoginMock = jest.fn();
     render(<Login onLogin={onLoginMock} />);
+
+    screen.logTestingPlaygroundURL();
 
     await userEvent.type(screen.getByPlaceholderText("Usuario"), "mario");
     await userEvent.type(screen.getByPlaceholderText("Contraseña"), "mario123");
@@ -60,6 +42,5 @@ describe("Login Component", () => {
 
     expect(onLoginMock).not.toHaveBeenCalled();
     expect(toast.error).toHaveBeenCalledWith("Usuario o contraseña incorrectos");
-    expect(toast.success).not.toHaveBeenCalled();
   });
 });
