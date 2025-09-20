@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Login from "./components/Login";
 import FormularioTarea from "./components/FormularioTarea";
 import ListaTarea from "./components/ListaTarea";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -22,11 +22,13 @@ function App() {
   const handleLogin = (user) => {
     localStorage.setItem("currentUser", JSON.stringify(user));
     setUser(user);
+    toast.success("Inicio de sesión correcto"); 
   };
 
   const handleLogout = () => {
     localStorage.removeItem("currentUser");
     setUser(null);
+    toast.info("Sesión cerrada"); 
   };
 
   const addTask = (task) => {
@@ -70,8 +72,8 @@ function App() {
         </button>
       </div>
 
-      <TaskForm addTask={addTask} user={user} />
-      <TaskList
+      <FormularioTarea addTask={addTask} user={user} />
+      <ListaTarea
         tasks={tasks}
         updateTask={updateTask}
         deleteTask={deleteTask}
