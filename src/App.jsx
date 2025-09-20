@@ -70,8 +70,8 @@ function App() {
         </button>
       </div>
 
-      <TaskForm addTask={addTask} user={user} />
-      <TaskList
+      <FormularioTarea addTask={addTask} user={user} />
+      <ListaTarea
         tasks={tasks}
         updateTask={updateTask}
         deleteTask={deleteTask}
