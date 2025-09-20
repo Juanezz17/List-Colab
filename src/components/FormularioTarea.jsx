@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 
-const TaskForm = ({ addTask, user }) => {
+const FormularioTarea = ({ addTask, user }) => {
   const [title, setTitle] = useState("");
 
   const handleSubmit = (e) => {
