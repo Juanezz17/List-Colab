@@ -5,6 +5,7 @@ import ListaTarea from "./components/ListaTarea";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// LocalStorage para mantener guardadas las tareas y la sesion 
 function App() {
   const [user, setUser] = useState(() => {
     const savedUser = JSON.parse(localStorage.getItem("currentUser"));
