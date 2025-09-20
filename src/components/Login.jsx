@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const validUsers = [
     { username: "juan", password: "juan25" },
     { username: "danna", password: "danna25" },
@@ -12,6 +13,11 @@ const Login = ({ onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!username || !password) {
+      toast.error("Por favor completa todos los campos");
+      return;
+    }
 
     const user = validUsers.find(
       (u) => u.username === username && u.password === password
@@ -21,12 +27,8 @@ const Login = ({ onLogin }) => {
       toast.success("Inicio de sesión correcto");
       onLogin(user);
     } else {
-
       toast.error("Usuario o contraseña incorrectos");
     }
-
-    setUsername("");
-    setPassword("");
   };
 
   return (
