@@ -1,26 +1,24 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Login from "./Login";
+import Login from "../src/components/Login";
 import { toast } from "react-toastify";
+import { vi, describe, it, expect, beforeEach } from "vitest";
 
-// Mock de react-toastify
-jest.mock("react-toastify", () => ({
+vi.mock("react-toastify", () => ({
   toast: {
-    success: jest.fn(),
-    error: jest.fn(),
+    success: vi.fn(),
+    error: vi.fn(),
   },
 }));
 
-describe("Login Component (con visualización)", () => {
+describe("Login Component", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
-  test("login correcto llama a onLogin y muestra toast de éxito", async () => {
-    const onLoginMock = jest.fn();
+  it("login correcto llama a onLogin y toast.success", async () => {
+    const onLoginMock = vi.fn();
     render(<Login onLogin={onLoginMock} />);
-
-    screen.logTestingPlaygroundURL();
 
     await userEvent.type(screen.getByPlaceholderText("Usuario"), "juan");
     await userEvent.type(screen.getByPlaceholderText("Contraseña"), "juan25");
@@ -30,11 +28,9 @@ describe("Login Component (con visualización)", () => {
     expect(toast.success).toHaveBeenCalledWith("Inicio de sesión correcto");
   });
 
-  test("login incorrecto muestra toast de error y no llama a onLogin", async () => {
-    const onLoginMock = jest.fn();
+  it("login incorrecto llama toast.error y no onLogin", async () => {
+    const onLoginMock = vi.fn();
     render(<Login onLogin={onLoginMock} />);
-
-    screen.logTestingPlaygroundURL();
 
     await userEvent.type(screen.getByPlaceholderText("Usuario"), "mario");
     await userEvent.type(screen.getByPlaceholderText("Contraseña"), "mario123");
