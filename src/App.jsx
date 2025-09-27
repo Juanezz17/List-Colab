@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import FormularioTarea from "./components/FormularioTarea";
 import ListaTarea from "./components/ListaTarea";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// LocalStorage para mantener guardadas las tareas y la sesion 
 function App() {
   const [user, setUser] = useState(() => {
     const savedUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -23,13 +23,13 @@ function App() {
   const handleLogin = (user) => {
     localStorage.setItem("currentUser", JSON.stringify(user));
     setUser(user);
-    toast.success("Inicio de sesión correcto");
+    toast.success("Inicio de sesión correcto"); 
   };
 
   const handleLogout = () => {
     localStorage.removeItem("currentUser");
     setUser(null);
-    toast.info("Sesión cerrada");
+    toast.info("Sesión cerrada"); 
   };
 
   const addTask = (task) => {
@@ -48,7 +48,9 @@ function App() {
   const updateTask = (id, updatedFields) => {
     setTasks(
       tasks.map((t) =>
-        t.id === id ? { ...t, ...updatedFields, editedBy: user.username } : t
+        t.id === id
+          ? { ...t, ...updatedFields, editedBy: user.username }
+          : t
       )
     );
   };
@@ -57,8 +59,9 @@ function App() {
     setTasks(tasks.filter((t) => t.id !== id));
   };
 
-  // Pantalla principal después de login
-  const Home = () => (
+  if (!user) return <Login onLogin={handleLogin} />;
+
+  return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold">¡Hola, {user.username}!</h1>
@@ -77,29 +80,6 @@ function App() {
         deleteTask={deleteTask}
         user={user}
       />
-    </div>
-  );
-
-  return (
-    <BrowserRouter basename="/List-Colab">
-      <Routes>
-        <Route
-          path="/"
-          element={
-            user ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            user ? <Navigate to="/home" replace /> : <Login onLogin={handleLogin} />
-          }
-        />
-        <Route
-          path="/home"
-          element={user ? <Home /> : <Navigate to="/login" replace />}
-        />
-      </Routes>
 
       <ToastContainer
         position="top-right"
@@ -110,7 +90,7 @@ function App() {
         draggable={false}
         theme="light"
       />
-    </BrowserRouter>
+    </div>
   );
 }
 
