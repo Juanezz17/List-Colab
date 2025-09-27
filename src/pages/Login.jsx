@@ -1,33 +1,24 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";           // ✅ Import necesario
+import { useAuth } from "../context/AuthContext.jsx";
 
-const Login = ({ onLogin }) => {
+export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");         // ✅ Estado para mostrar errores
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const validUsers = [
-    { username: "juan", password: "juan25" },
-    { username: "danna", password: "danna25" },
-  ];
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // limpiar error anterior
 
-    if (!username || !password) {
-      toast.error("Por favor completa todos los campos");
-      return;
-    }
-
-    const user = validUsers.find(
-      (u) => u.username === username && u.password === password
-    );
-
-    if (user) {
-      toast.success("Inicio de sesión correcto");
-      onLogin(user);
+    const ok = await login(username, password);   // ✅ por si login es async
+    if (ok) {
+      navigate("/");                      // ✅ coincide con tu <Route path="/usuarios">
     } else {
-      toast.error("Usuario o contraseña incorrectos");
+      setError("Usuario o contraseña incorrectos");
     }
   };
 
@@ -61,6 +52,8 @@ const Login = ({ onLogin }) => {
                      focus:ring-2 focus:ring-blue-500 outline-none"
         />
 
+        {error && <p className="text-red-400 text-center text-sm">{error}</p>}
+
         <button
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg
@@ -71,6 +64,4 @@ const Login = ({ onLogin }) => {
       </form>
     </motion.div>
   );
-};
-
-export default Login;
+}

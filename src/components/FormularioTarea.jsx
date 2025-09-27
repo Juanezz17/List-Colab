@@ -10,7 +10,6 @@ const FormularioTarea = ({ addTask, user }) => {
     e.preventDefault();
 
     if (!title.trim()) {
-      toast.error("El título no puede estar vacío ");
       return;
     }
 
