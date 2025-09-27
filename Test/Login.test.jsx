@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Login from "../src/components/Login"; 
+import Login from "../src/components/Login";
 import { vi, describe, it, expect } from "vitest";
 
 describe("Login Component", () => {
@@ -22,7 +22,7 @@ describe("Login Component", () => {
     });
   });
 
-  it("login incorrecto con mario", async () => {
+  it("muestra toast de error si login es incorrecto (Mario)", async () => {
     const onLoginMock = vi.fn();
     render(<Login onLogin={onLoginMock} />);
 
@@ -31,5 +31,12 @@ describe("Login Component", () => {
     await userEvent.click(screen.getByRole("button", { name: /entrar/i }));
 
     expect(onLoginMock).not.toHaveBeenCalled();
+
+    // 💡 ahora sí esperamos el mensaje de error del toast
+    await waitFor(() =>
+      expect(
+        screen.getByText(/Usuario o contraseña incorrectos/i)
+      ).toBeInTheDocument()
+    );
   });
 });
