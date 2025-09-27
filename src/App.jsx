@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Login from "./components/Login";
+import Login from "../pages/Login";
 import FormularioTarea from "./components/FormularioTarea";
 import ListaTarea from "./components/ListaTarea";
 import { ToastContainer, toast } from "react-toastify";

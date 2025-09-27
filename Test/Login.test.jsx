@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Login from "../src/components/Login";
+import Login from "../pages/Login";
 import { vi, describe, it, expect } from "vitest";
 
 describe("Login Component", () => {
